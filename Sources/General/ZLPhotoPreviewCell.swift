@@ -910,7 +910,7 @@ class ZLPreviewView: UIView {
     func loadPhoto() {
         //[ZLModify]
         if let photoURLStr = model.photoURLStr {
-            imageView.gaia_setImage(with: URL(string: photoURLStr))
+            imageView.zlphoto_setImage(with: URL(string: photoURLStr))
             return
         }
         
@@ -931,7 +931,7 @@ class ZLPreviewView: UIView {
                 }
                 //[ZLModify]
                 if self?.model.isThreeToFourDisplay == true {
-                    self?.model.editImage = image?.crop(ratio: 3.0/4.0)
+                    self?.model.editImage = image?.zl_crop(ratio: 3.0/4.0)
                 }
                 self?.imageView.image = image
                 self?.resetSubViewSize()

@@ -1062,7 +1062,7 @@ class ZLPhotoPreviewSelectedViewCell: UICollectionViewCell {
         self.imageView.image = nil
         //[ZLModify]
         if let photoURLStr = self.model.photoURLStr {
-            imageView.gaia_setImage(with: URL(string: photoURLStr))
+            imageView..zlphoto_setImage(with: URL(string: photoURLStr))
             return
         }
         if let ei = self.model.editImage {
