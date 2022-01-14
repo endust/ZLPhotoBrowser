@@ -11,13 +11,13 @@ Pod::Spec.new do |s|
                               更多自定义功能请查看 ZLPhotoConfiguration 定义
                               DESC
 
-  s.homepage              = 'https://github.com/longitachi/ZLPhotoBrowser'
+  s.homepage              = 'https://github.com/endust/ZLPhotoBrowser'
   s.license               = { :type => "MIT", :file => "LICENSE" }
 
   s.author                = {'longitachi' => 'longitachi@163.com'}
   s.social_media_url      = "https://github.com/longitachi"
 
-  s.source                = {:git => 'https://github.com/longitachi/ZLPhotoBrowser.git', :tag => s.version}
+  s.source                = {:git => 'https://github.com/endust/ZLPhotoBrowser.git', :tag => s.version}
 
   s.ios.deployment_target = '10.0'
 
@@ -25,6 +25,7 @@ Pod::Spec.new do |s|
 
   s.requires_arc          = true
   s.frameworks            = 'UIKit','Photos','PhotosUI','AVFoundation','CoreMotion', 'Accelerate'
+  s.dependency 				'ImageSlideshow/Kingfisher', '1.9.2'
 
   s.resources             = 'Sources/*.{png,bundle}'
 

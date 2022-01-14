@@ -421,3 +421,21 @@ extension ZLPhotoManager {
     }
     
 }
+
+// zlmodify
+extension ZLPhotoManager {
+    class func checkCloudStatusForPHAsset(_ phAsset: PHAsset, completion: @escaping ((Bool) -> Void)) {
+        if phAsset.mediaType == .video {
+            let options = PHVideoRequestOptions()
+            options.version = .original
+            options.isNetworkAccessAllowed = false
+            PHImageManager.default().requestAVAsset(forVideo: phAsset, options: options) { (avAsset, _, _) in
+                DispatchQueue.main.async {
+                    completion(avAsset == nil)
+                }
+            }
+        } else {
+            completion(false)
+        }
+    }
+}

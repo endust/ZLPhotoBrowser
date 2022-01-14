@@ -38,6 +38,8 @@ class ZLAlbumListController: UIViewController, UITableViewDataSource, UITableVie
     var arrDataSource: [ZLAlbumListModel] = []
     
     var shouldReloadAlbumList = true
+    // ZLModify
+    private var didAddObserver = false
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return ZLPhotoConfiguration.default().statusBarStyle
@@ -51,7 +53,8 @@ class ZLAlbumListController: UIViewController, UITableViewDataSource, UITableVie
         super.viewDidLoad()
 
         setupUI()
-        PHPhotoLibrary.shared().register(self)
+        // ZLModify
+        addLibraryChangeObserver()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -74,7 +77,11 @@ class ZLAlbumListController: UIViewController, UITableViewDataSource, UITableVie
             }
         }
     }
-    
+    // zlmodify
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        addLibraryChangeObserver()
+    }
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
@@ -103,7 +110,8 @@ class ZLAlbumListController: UIViewController, UITableViewDataSource, UITableVie
         tableView.tableFooterView = UIView()
         tableView.rowHeight = 65
         tableView.separatorInset = UIEdgeInsets(top: 0, left: 12, bottom: 0, right: 0)
-        tableView.separatorColor = .separatorLineColor
+        // ZLModify
+        tableView.separatorColor = zlRGB(220, 220, 220)
         tableView.delegate = self
         tableView.dataSource = self
         view.addSubview(tableView)
@@ -129,7 +137,10 @@ class ZLAlbumListController: UIViewController, UITableViewDataSource, UITableVie
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ZLAlbumListCell.zl_identifier(), for: indexPath) as! ZLAlbumListCell
-        
+        //[ZLModify]
+        cell.backgroundColor = .white
+        cell.titleLabel.textColor = zlRGB(51, 51, 51)
+        cell.countLabel.textColor = zlRGB(154, 154, 154)
         cell.configureCell(model: arrDataSource[indexPath.row], style: .externalAlbumList)
         
         return cell
@@ -149,4 +160,13 @@ extension ZLAlbumListController: PHPhotoLibraryChangeObserver {
         shouldReloadAlbumList = true
     }
     
+    // zlmodify
+    private func addLibraryChangeObserver() {
+        guard !didAddObserver,
+              PHPhotoLibrary.authorizationStatus() != .notDetermined else {
+                  return
+              }
+        didAddObserver = true
+        PHPhotoLibrary.shared().register(self)
+    }
 }

@@ -1296,11 +1296,14 @@ class ZLEmbedAlbumListNavView: UIView {
                 height: ZLEmbedAlbumListNavView.titleViewH
             )
             self.albumTitleLabel.frame = CGRect(x: 10, y: 0, width: albumTitleW, height: ZLEmbedAlbumListNavView.titleViewH)
+            //[ZLModify]
+            let arrowH: CGFloat = 7
+            let arrowW: CGFloat = 9
             self.arrow.frame = CGRect(
                 x: self.albumTitleLabel.frame.maxX + 5,
-                y: (ZLEmbedAlbumListNavView.titleViewH - ZLEmbedAlbumListNavView.arrowH) / 2.0,
-                width: ZLEmbedAlbumListNavView.arrowH,
-                height: ZLEmbedAlbumListNavView.arrowH
+                y: (ZLEmbedAlbumListNavView.titleViewH - arrowH) / 2.0,
+                width: arrowW,
+                height: arrowH
             )
         }
     }
@@ -1479,8 +1482,8 @@ class ZLLimitedAuthorityTipsView: UIView {
         self.tipsLabel.adjustsFontSizeToFitWidth = true
         self.tipsLabel.minimumScaleFactor = 0.5
         self.addSubview(self.tipsLabel)
-        
-        self.arrow = UIImageView(image: getImage("zl_right_arrow"))
+        //[ZLModify]
+        self.arrow = UIImageView(image: getImage("zl_icon_pugc_pic_xiala"))
         self.addSubview(self.arrow)
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(tapAction))

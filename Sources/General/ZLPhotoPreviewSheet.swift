@@ -62,8 +62,8 @@ public class ZLPhotoPreviewSheet: UIView {
     private lazy var placeholderLabel = UILabel()
     
     private var arrDataSources: [ZLPhotoModel] = []
-    
-    private var arrSelectedModels: [ZLPhotoModel] = []
+    //[ZLModify]
+    private(set) var arrSelectedModels: [ZLPhotoModel] = []
     
     private var preview = false
     
@@ -82,8 +82,8 @@ public class ZLPhotoPreviewSheet: UIView {
     private var panModel: ZLPhotoModel?
     
     private var panCell: ZLThumbnailPhotoCell?
-    
-    private weak var sender: UIViewController?
+    //[ZLModify]
+    private(set) weak var sender: UIViewController?
     
     private lazy var fetchImageQueue: OperationQueue = OperationQueue()
     
@@ -370,13 +370,19 @@ public class ZLPhotoPreviewSheet: UIView {
             sender?.tabBarController?.tabBar.isHidden = temp
         }
     }
-    
+    //[ZLModify]
     func showNoAuthorityAlert() {
         let alert = UIAlertController(title: nil, message: String(format: localLanguageTextValue(.noPhotoLibratyAuthority), getAppName()), preferredStyle: .alert)
-        let action = UIAlertAction(title: localLanguageTextValue(.ok), style: .default) { (_) in
-            ZLPhotoConfiguration.default().noAuthorityCallback?(.library)
-        }
+        let action = UIAlertAction(title: localLanguageTextValue(.ok), style: .default, handler: nil)
         alert.addAction(action)
+        let goAction = UIAlertAction(title: "去设置", style: .default) { _ in
+            guard let budle = Bundle.main.bundleIdentifier,
+                let url = URL(string: UIApplication.openSettingsURLString + budle) else {
+                return
+            }
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        }
+        alert.addAction(goAction)
         sender?.showAlertController(alert)
     }
     

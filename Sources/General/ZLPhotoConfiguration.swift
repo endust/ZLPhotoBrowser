@@ -592,9 +592,9 @@ public class ZLPhotoThemeColorDeploy: NSObject {
     
     /// The background color of selected cell index label.
     @objc public var indexLabelBgColor = zlRGB(80, 169, 56)
-    
+    /// ZLModify
     /// The background color of camera cell inside album.
-    @objc public var cameraCellBgColor = UIColor(white: 0.3, alpha: 1)
+    @objc public var cameraCellBgColor = zlRGB(248, 248, 248)
     
     /// The normal color of adjust slider.
     @objc public var adjustSliderNormalColor = UIColor.white
@@ -627,4 +627,55 @@ struct ZLCustomImageDeploy {
     
     static var imageForKey: [String: UIImage] = [:]
     
+}
+
+// zlmodify
+extension ZLPhotoConfiguration {
+    func setToChoosePhoto() {
+        disableAnimatedImage()
+        saveNewImageAfterEdit = false
+        allowSelectVideo = false
+        allowSelectImage = true
+        maxSelectCount = 9
+        
+        allowMixSelect = false
+        allowTakePhotoInLibrary = false
+        showSelectBtnWhenSingleSelect = true
+    }
+    
+    func setToChooseVideo() {
+        disableAnimatedImage()
+        allowSelectVideo = true
+        allowSelectImage = false
+        maxSelectCount = 1
+        maxSelectVideoDuration = 600
+        allowMixSelect = false
+        allowTakePhotoInLibrary = false
+        showSelectBtnWhenSingleSelect = false
+    }
+    
+    func setToChooseVideoCover() {
+        disableAnimatedImage()
+        saveNewImageAfterEdit = false
+        allowSelectVideo = false
+        allowSelectImage = true
+        maxSelectCount = 1
+        
+        allowMixSelect = false
+        allowTakePhotoInLibrary = false
+        showSelectBtnWhenSingleSelect = false
+    }
+    
+    private func disableAnimatedImage() {
+        allowSelectGif = false
+        allowSelectLivePhoto = false
+    }
+    
+    var isChooseVideo: Bool {
+        return allowSelectVideo == true && allowSelectImage == false && maxSelectCount == 1
+    }
+    
+    var isChooseVideoCover: Bool {
+        return allowSelectVideo == false && allowSelectImage == true && maxSelectCount == 1
+    }
 }

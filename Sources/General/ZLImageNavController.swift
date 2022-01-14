@@ -84,3 +84,48 @@ class ZLImageNavController: UINavigationController {
     }
 
 }
+
+// zlmodify
+extension ZLImageNavController {
+    private struct AssociateKey {
+        static var isFirstEnterKey = 0
+        static var customSelectVideoBlockKey = 1
+        static var customSelectVideoCoverBlockKey = 2
+        static var customVideoWHScaleKey = 3
+    }
+    var isFirstEnter: Bool {
+        get {
+            return objc_getAssociatedObject(self, &AssociateKey.isFirstEnterKey) as? Bool ?? true
+        }
+        set {
+            objc_setAssociatedObject(self, &AssociateKey.isFirstEnterKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        }
+    }
+    
+    var customSelectVideoBlock: ((ZLPhotoModel) -> Void)? {
+        get {
+            return objc_getAssociatedObject(self, &AssociateKey.customSelectVideoBlockKey) as? ((ZLPhotoModel) -> Void)
+        }
+        set {
+            objc_setAssociatedObject(self, &AssociateKey.customSelectVideoBlockKey, newValue, .OBJC_ASSOCIATION_COPY_NONATOMIC)
+        }
+    }
+    
+    var customSelectVideoCoverBlock: ((UIImage) -> Void)? {
+        get {
+            return objc_getAssociatedObject(self, &AssociateKey.customSelectVideoCoverBlockKey) as? ((UIImage) -> Void)
+        }
+        set {
+            objc_setAssociatedObject(self, &AssociateKey.customSelectVideoCoverBlockKey, newValue, .OBJC_ASSOCIATION_COPY_NONATOMIC)
+        }
+    }
+    
+    var customVideoWHScale: CGFloat {
+        get {
+            return objc_getAssociatedObject(self, &AssociateKey.customVideoWHScaleKey) as? CGFloat ?? 1.0
+        }
+        set {
+            objc_setAssociatedObject(self, &AssociateKey.customVideoWHScaleKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        }
+    }
+}

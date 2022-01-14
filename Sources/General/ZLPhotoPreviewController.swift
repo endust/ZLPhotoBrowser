@@ -34,8 +34,8 @@ class ZLPhotoPreviewController: UIViewController {
     static let selPhotoPreviewH: CGFloat = 100
     
     static let previewVCScrollNotification = Notification.Name("previewVCScrollNotification")
-    
-    let arrDataSources: [ZLPhotoModel]
+    //[ZLModify]
+    var arrDataSources: [ZLPhotoModel]
     
     let showBottomViewAndSelectBtn: Bool
     
@@ -241,7 +241,8 @@ class ZLPhotoPreviewController: UIViewController {
         self.navView.addSubview(self.selectBtn)
         
         self.indexLabel = UILabel()
-        self.indexLabel.backgroundColor = .indexLabelBgColor
+        //[ZLModify]
+        self.indexLabel.backgroundColor = zlRGB(255, 128, 128)
         self.indexLabel.font = getFont(14)
         self.indexLabel.textColor = .white
         self.indexLabel.textAlignment = .center
@@ -1059,7 +1060,11 @@ class ZLPhotoPreviewSelectedViewCell: UICollectionViewCell {
         
         self.imageIdentifier = self.model.ident
         self.imageView.image = nil
-        
+        //[ZLModify]
+        if let photoURLStr = self.model.photoURLStr {
+            imageView.gaia_setImage(with: URL(string: photoURLStr))
+            return
+        }
         if let ei = self.model.editImage {
             self.imageView.image = ei
         } else {

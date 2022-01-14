@@ -96,8 +96,9 @@ class ZLThumbnailPhotoCell: UICollectionViewCell {
         self.contentView.addSubview(self.coverView)
         
         self.btnSelect = UIButton(type: .custom)
-        self.btnSelect.setBackgroundImage(getImage("zl_btn_unselected"), for: .normal)
-        self.btnSelect.setBackgroundImage(getImage("zl_btn_selected"), for: .selected)
+        //[ZLModify]
+        self.btnSelect.setBackgroundImage(getImage("zl_icon_pugc_checkbox"), for: .normal)
+        self.btnSelect.setBackgroundImage(getImage("zl_icon_pugc_checkbox"), for: .selected)
         self.btnSelect.addTarget(self, action: #selector(btnSelectClick), for: .touchUpInside)
         self.btnSelect.zl_enlargeValidTouchArea(insets: UIEdgeInsets(top: 5, left: 20, bottom: 20, right: 5))
         self.contentView.addSubview(self.btnSelect)
@@ -224,8 +225,8 @@ class ZLThumbnailPhotoCell: UICollectionViewCell {
         self.btnSelect.isHidden = !showSelBtn
         self.btnSelect.isUserInteractionEnabled = showSelBtn
         self.btnSelect.isSelected = self.model.isSelected
-        
-        self.indexLabel.backgroundColor = .indexLabelBgColor
+        //[ZLModify]
+        self.indexLabel.backgroundColor = zlRGB(255, 128, 128)
         
         if self.model.isSelected {
             self.fetchBigImage()
