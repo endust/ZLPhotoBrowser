@@ -52,13 +52,13 @@ open class ZLClipImageViewController: UIViewController {
     var animate = true
     
     /// 用作进入裁剪界面首次动画frame
-    var presentAnimateFrame: CGRect?
+    public var presentAnimateFrame: CGRect?
     
     /// 用作进入裁剪界面首次动画和取消裁剪时动画的image
-    var presentAnimateImage: UIImage?
+    open var presentAnimateImage: UIImage?
     
     /// 取消裁剪时动画frame
-    var cancelClipAnimateFrame: CGRect = .zero
+    open var cancelClipAnimateFrame: CGRect = .zero
     
     var viewDidAppearCount = 0
     
@@ -79,23 +79,23 @@ open class ZLClipImageViewController: UIViewController {
     
     var shadowView: ZLClipShadowView!
     
-    var overlayView: ZLClipOverlayView!
+    open var overlayView: ZLClipOverlayView!
     
     var gridPanGes: UIPanGestureRecognizer!
     
-    var bottomToolView: UIView!
+    open var bottomToolView: UIView!
     
     var bottomShadowLayer: CAGradientLayer!
     
-    var bottomToolLineView: UIView!
+    open var bottomToolLineView: UIView!
     
     var cancelBtn: UIButton!
     
-    var revertBtn: UIButton!
+    open var revertBtn: UIButton!
     
     var doneBtn: UIButton!
     
-    var rotateBtn: UIButton!
+    open var rotateBtn: UIButton!
     
     var clipRatioColView: UICollectionView!
     
@@ -121,7 +121,7 @@ open class ZLClipImageViewController: UIViewController {
     
     var thumbnailImage: UIImage?
     
-    lazy var maxClipFrame: CGRect = {
+    open lazy var maxClipFrame: CGRect = {
         var insets = deviceSafeAreaInsets()
         insets.top +=  20
         var rect = CGRect.zero
@@ -136,14 +136,14 @@ open class ZLClipImageViewController: UIViewController {
     
     var resetTimer: Timer?
     
-    var dismissAnimateFromRect: CGRect = .zero
+    open var dismissAnimateFromRect: CGRect = .zero
     
-    var dismissAnimateImage: UIImage? = nil
+    open  var dismissAnimateImage: UIImage? = nil
     
     /// 传回旋转角度，图片编辑区域的rect
     var clipDoneBlock: ( (CGFloat, CGRect, ZLImageClipRatio) -> Void )?
     
-    var cancelClipBlock: ( () -> Void )?
+    open var cancelClipBlock: ( () -> Void )?
     
     public override var prefersStatusBarHidden: Bool {
         return true
@@ -158,7 +158,7 @@ open class ZLClipImageViewController: UIViewController {
         self.cleanTimer()
     }
     
-    init(image: UIImage, editRect: CGRect?, angle: CGFloat = 0, selectRatio: ZLImageClipRatio?) {
+    public init(image: UIImage, editRect: CGRect?, angle: CGFloat = 0, selectRatio: ZLImageClipRatio?) {
         self.originalImage = image
         self.clipRatios = ZLPhotoConfiguration.default().editImageConfiguration.clipRatios
         self.editRect = editRect ?? .zero
@@ -270,7 +270,7 @@ open class ZLClipImageViewController: UIViewController {
         }
     }
     
-    func setupUI() {
+    open func setupUI() {
         self.view.backgroundColor = .black
         
         self.scrollView = UIScrollView()
@@ -454,7 +454,7 @@ open class ZLClipImageViewController: UIViewController {
         self.scrollView.contentOffset = CGPoint(x: -self.scrollView.contentInset.left+diffX, y: -self.scrollView.contentInset.top+diffY)
     }
     
-    func changeClipBoxFrame(newFrame: CGRect) {
+    open func changeClipBoxFrame(newFrame: CGRect) {
         guard self.clipBoxFrame != newFrame else {
             return
         }
@@ -501,7 +501,7 @@ open class ZLClipImageViewController: UIViewController {
         self.scrollView.zoomScale = self.scrollView.zoomScale
     }
     
-    @objc func cancelBtnClick() {
+    @objc open func cancelBtnClick() {
         self.dismissAnimateFromRect = self.cancelClipAnimateFrame
         self.dismissAnimateImage = self.presentAnimateImage
         self.cancelClipBlock?()
@@ -519,7 +519,7 @@ open class ZLClipImageViewController: UIViewController {
         self.clipRatioColView.reloadData()
     }
     
-    @objc func doneBtnClick() {
+    @objc open func doneBtnClick() {
         let image = clipImage()
         dismissAnimateFromRect = clipBoxFrame
         dismissAnimateImage = image.clipImage
@@ -533,7 +533,7 @@ open class ZLClipImageViewController: UIViewController {
         }
     }
     
-    @objc func rotateBtnClick() {
+     @objc open func rotateBtnClick() {
         guard !self.isRotating else {
             return
         }
@@ -802,7 +802,7 @@ open class ZLClipImageViewController: UIViewController {
         self.changeClipBoxFrame(newFrame: frame)
     }
     
-    func startEditing() {
+   open func startEditing() {
         self.cleanTimer()
         self.shadowView.alpha = 0
         self.overlayView.isEditing = true
@@ -816,7 +816,7 @@ open class ZLClipImageViewController: UIViewController {
         }
     }
     
-    func endEditing() {
+    open func endEditing() {
         self.overlayView.isEditing = false
         self.moveClipContentToCenter()
     }
@@ -877,7 +877,7 @@ open class ZLClipImageViewController: UIViewController {
         }
     }
     
-    func clipImage() -> (clipImage: UIImage, editRect: CGRect) {
+    open func clipImage() -> (clipImage: UIImage, editRect: CGRect) {
         let frame = self.convertClipRectToEditImageRect()
         let clipImage = self.editImage.clipImage(angle: 0, editRect: frame, isCircle: self.selectedRatio.isCircle) ?? self.editImage
         return (clipImage, frame)
@@ -1132,7 +1132,7 @@ class ZLClipShadowView: UIView {
 
 // MARK: 裁剪网格视图
 
-class ZLClipOverlayView: UIView {
+public class ZLClipOverlayView: UIView {
     
     static let cornerLineWidth: CGFloat = 3
     
@@ -1188,7 +1188,7 @@ class ZLClipOverlayView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func layoutSubviews() {
+    public override func layoutSubviews() {
         super.layoutSubviews()
         self.setNeedsDisplay()
 //        let borderLineLength: CGFloat = 20
@@ -1253,7 +1253,7 @@ class ZLClipOverlayView: UIView {
         
     }
     
-    override func draw(_ rect: CGRect) {
+    public override func draw(_ rect: CGRect) {
         let context = UIGraphicsGetCurrentContext()
         
         context?.setStrokeColor(UIColor.white.cgColor)

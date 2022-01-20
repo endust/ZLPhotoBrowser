@@ -10,10 +10,7 @@ import UIKit
 import Kingfisher
 // zlmodify
 extension UIImageView {
-    func zlphoto_setImage(with url: URL?, placeholder: UIImage?) {
-        if placeholder == nil {
-            placeholder = getImage("zl_pic_loading")
-        }
+    func zlphoto_setImage(with url: URL?, placeholder: UIImage? = getImage("zl_pic_loading")) {
         if let placeholder = placeholder {
             // backgroundColor = UIColor(hex: "EAEAEA") // EA = 234
             image = placeholder

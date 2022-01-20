@@ -28,7 +28,7 @@ import UIKit
 import Photos
 import PhotosUI
 
-class ZLPreviewBaseCell: UICollectionViewCell {
+public class ZLPreviewBaseCell: UICollectionViewCell {
     
     var singleTapBlock: ( () -> Void )?
     
@@ -228,7 +228,7 @@ class ZLNetImagePreviewCell: ZLLocalImagePreviewCell {
 
 
 // MARK: static image preview cell
-class ZLPhotoPreviewCell: ZLPreviewBaseCell {
+public class ZLPhotoPreviewCell: ZLPreviewBaseCell {
     
     override var currentImage: UIImage? {
         return self.preview.image
@@ -236,7 +236,7 @@ class ZLPhotoPreviewCell: ZLPreviewBaseCell {
     
     var preview: ZLPreviewView!
     
-    var model: ZLPhotoModel! {
+    public var model: ZLPhotoModel! {
         didSet {
             self.preview.model = self.model
         }
@@ -255,7 +255,7 @@ class ZLPhotoPreviewCell: ZLPreviewBaseCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func layoutSubviews() {
+    public override func layoutSubviews() {
         super.layoutSubviews()
         self.preview.frame = self.bounds
     }
@@ -281,7 +281,7 @@ class ZLPhotoPreviewCell: ZLPreviewBaseCell {
 
 
 // MARK: gif preview cell
-class ZLGifPreviewCell: ZLPreviewBaseCell {
+public class ZLGifPreviewCell: ZLPreviewBaseCell {
     
     override var currentImage: UIImage? {
         return self.preview.image
@@ -308,7 +308,7 @@ class ZLGifPreviewCell: ZLPreviewBaseCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func layoutSubviews() {
+    public override func layoutSubviews() {
         super.layoutSubviews()
         self.preview.frame = self.bounds
     }
@@ -351,7 +351,7 @@ class ZLGifPreviewCell: ZLPreviewBaseCell {
 
 
 // MARK: live photo preview cell
-class ZLLivePhotoPreviewCell: ZLPreviewBaseCell {
+public class ZLLivePhotoPreviewCell: ZLPreviewBaseCell {
     
     override var currentImage: UIImage? {
         return self.imageView.image
@@ -388,7 +388,7 @@ class ZLLivePhotoPreviewCell: ZLPreviewBaseCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func layoutSubviews() {
+    public override func layoutSubviews() {
         super.layoutSubviews()
         self.livePhotoView.frame = self.bounds
         self.resizeImageView(imageView: self.imageView, asset: self.model.asset)
@@ -461,7 +461,7 @@ class ZLLivePhotoPreviewCell: ZLPreviewBaseCell {
 
 
 // MARK: video preview cell
-class ZLVideoPreviewCell: ZLPreviewBaseCell {
+public class ZLVideoPreviewCell: ZLPreviewBaseCell {
     
     override var currentImage: UIImage? {
         return self.imageView.image
@@ -513,7 +513,7 @@ class ZLVideoPreviewCell: ZLPreviewBaseCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func layoutSubviews() {
+    public override func layoutSubviews() {
         super.layoutSubviews()
         self.playerLayer?.frame = self.bounds
         self.resizeImageView(imageView: self.imageView, asset: self.model.asset)

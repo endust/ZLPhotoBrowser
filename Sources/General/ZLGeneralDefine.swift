@@ -26,7 +26,7 @@
 
 import UIKit
 
-let ZLMaxImageWidth: CGFloat = 600
+public let ZLMaxImageWidth: CGFloat = 600
 
 struct ZLLayout {
     
@@ -52,7 +52,7 @@ func zlRGB(_ red: CGFloat, _ green: CGFloat, _ blue: CGFloat) -> UIColor {
     return UIColor(red: red / 255, green: green / 255, blue: blue / 255, alpha: 1)
 }
 
-func getImage(_ named: String) -> UIImage? {
+public func getImage(_ named: String) -> UIImage? {
     if ZLCustomImageDeploy.imageNames.contains(named), let image = UIImage(named: named) {
         return image
     }
@@ -120,7 +120,7 @@ func deviceIsiPad() -> Bool {
     return UI_USER_INTERFACE_IDIOM() == .pad
 }
 
-func deviceSafeAreaInsets() -> UIEdgeInsets {
+public func deviceSafeAreaInsets() -> UIEdgeInsets {
     var insets: UIEdgeInsets = .zero
     
     if #available(iOS 11, *) {
@@ -143,7 +143,7 @@ func getSpringAnimation() -> CAKeyframeAnimation {
     return animate
 }
 
-func showAlertView(_ message: String, _ sender: UIViewController?) {
+public func showAlertView(_ message: String, _ sender: UIViewController?) {
     let alert = UIAlertController(title: nil, message: message, preferredStyle: .alert)
     let action = UIAlertAction(title: localLanguageTextValue(.ok), style: .default, handler: nil)
     alert.addAction(action)

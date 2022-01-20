@@ -27,7 +27,7 @@
 import UIKit
 import Photos
 
-class ZLEmbedAlbumListView: UIView {
+open class ZLEmbedAlbumListView: UIView {
 
     static let rowH: CGFloat = 60
     
@@ -52,11 +52,11 @@ class ZLEmbedAlbumListView: UIView {
         self.loadAlbumList()
     }
     
-    required init?(coder: NSCoder) {
+    required public init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func layoutSubviews() {
+    open override func layoutSubviews() {
         super.layoutSubviews()
         let currOri = UIApplication.shared.statusBarOrientation
         
@@ -196,7 +196,7 @@ class ZLEmbedAlbumListView: UIView {
 
 extension ZLEmbedAlbumListView: UIGestureRecognizerDelegate {
     
-    override func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+    open override func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
         let p = gestureRecognizer.location(in: self)
         return !self.tableBgView.frame.contains(p)
     }
@@ -206,11 +206,11 @@ extension ZLEmbedAlbumListView: UIGestureRecognizerDelegate {
 
 extension ZLEmbedAlbumListView: UITableViewDataSource, UITableViewDelegate {
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.arrDataSource.count
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ZLAlbumListCell.zl_identifier(), for: indexPath) as! ZLAlbumListCell
         
         let m = self.arrDataSource[indexPath.row]
@@ -222,7 +222,7 @@ extension ZLEmbedAlbumListView: UITableViewDataSource, UITableViewDelegate {
         return cell
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let m = self.arrDataSource[indexPath.row]
         self.selectedAlbum = m
         self.selectAlbumBlock?(m)

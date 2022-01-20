@@ -27,7 +27,7 @@
 import UIKit
 import Photos
 
-class ZLPhotoPreviewController: UIViewController {
+open class ZLPhotoPreviewController: UIViewController {
 
     static let colItemSpacing: CGFloat = 40
     
@@ -35,15 +35,15 @@ class ZLPhotoPreviewController: UIViewController {
     
     static let previewVCScrollNotification = Notification.Name("previewVCScrollNotification")
     //[ZLModify]
-    var arrDataSources: [ZLPhotoModel]
+    open var arrDataSources: [ZLPhotoModel]
     
     let showBottomViewAndSelectBtn: Bool
     
-    var currentIndex: Int
+    open var currentIndex: Int
     
-    var indexBeforOrientationChanged: Int
+    open var indexBeforOrientationChanged: Int
     
-    var collectionView: UICollectionView!
+    open var collectionView: UICollectionView!
     
     var navView: UIView!
     
@@ -55,7 +55,7 @@ class ZLPhotoPreviewController: UIViewController {
     
     var indexLabel: UILabel!
     
-    var bottomView: UIView!
+    open var bottomView: UIView!
     
     var bottomBlurView: UIVisualEffectView?
     
@@ -69,7 +69,7 @@ class ZLPhotoPreviewController: UIViewController {
     
     var isFirstAppear = true
     
-    var hideNavView = false
+    open var hideNavView = false
     
     var popInteractiveTransition: ZLPhotoPreviewPopInteractiveTransition?
     
@@ -81,11 +81,11 @@ class ZLPhotoPreviewController: UIViewController {
     
     var orientation: UIInterfaceOrientation = .unknown
     
-    override var prefersStatusBarHidden: Bool {
+    open override var prefersStatusBarHidden: Bool {
         return !ZLPhotoConfiguration.default().showStatusBarInPreviewInterface
     }
     
-    override var preferredStatusBarStyle: UIStatusBarStyle {
+    open override var preferredStatusBarStyle: UIStatusBarStyle {
         return ZLPhotoConfiguration.default().statusBarStyle
     }
     
@@ -93,7 +93,7 @@ class ZLPhotoPreviewController: UIViewController {
         zl_debugPrint("ZLPhotoPreviewController deinit")
     }
     
-    init(photos: [ZLPhotoModel], index: Int, showBottomViewAndSelectBtn: Bool = true) {
+    public init(photos: [ZLPhotoModel], index: Int, showBottomViewAndSelectBtn: Bool = true) {
         self.arrDataSources = photos
         self.showBottomViewAndSelectBtn = showBottomViewAndSelectBtn
         self.currentIndex = index
@@ -101,11 +101,11 @@ class ZLPhotoPreviewController: UIViewController {
         super.init(nibName: nil, bundle: nil)
     }
     
-    required init?(coder: NSCoder) {
+    required public init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func viewDidLoad() {
+    open override func viewDidLoad() {
         super.viewDidLoad()
         
         self.setupUI()
@@ -114,12 +114,12 @@ class ZLPhotoPreviewController: UIViewController {
         self.resetSubViewStatus()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
+    open override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.navigationBar.isHidden = true
     }
     
-    override func viewDidAppear(_ animated: Bool) {
+    open override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         self.navigationController?.delegate = self
         
@@ -129,7 +129,7 @@ class ZLPhotoPreviewController: UIViewController {
         self.reloadCurrentCell()
     }
     
-    override func viewDidLayoutSubviews() {
+    open override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
         var insets = UIEdgeInsets(top: 20, left: 0, bottom: 0, right: 0)
@@ -160,7 +160,7 @@ class ZLPhotoPreviewController: UIViewController {
         }
     }
     
-    func reloadCurrentCell() {
+    open func reloadCurrentCell() {
         guard let cell = self.collectionView.cellForItem(at: IndexPath(row: self.currentIndex, section: 0)) else {
             return
         }
@@ -171,7 +171,7 @@ class ZLPhotoPreviewController: UIViewController {
         }
     }
     
-    func refreshBottomViewFrame() {
+    open func refreshBottomViewFrame() {
         var insets = UIEdgeInsets(top: 20, left: 0, bottom: 0, right: 0)
         if #available(iOS 11.0, *) {
             insets = self.view.safeAreaInsets
@@ -212,7 +212,7 @@ class ZLPhotoPreviewController: UIViewController {
         self.doneBtn.frame = CGRect(x: self.bottomView.bounds.width - doneBtnW - 15, y: btnY, width: doneBtnW, height: btnH)
     }
     
-    func setupUI() {
+    open func setupUI() {
         self.view.backgroundColor = .black
         self.automaticallyAdjustsScrollViewInsets = false
         
@@ -329,7 +329,7 @@ class ZLPhotoPreviewController: UIViewController {
         self.view.bringSubviewToFront(self.navView)
     }
     
-    func addPopInteractiveTransition() {
+    open func addPopInteractiveTransition() {
         guard (self.navigationController?.viewControllers.count ?? 0 ) > 1 else {
             // 仅有当前vc一个时候，说明不是从相册进入，不添加交互动画
             return
@@ -379,7 +379,7 @@ class ZLPhotoPreviewController: UIViewController {
         }
     }
     
-    func resetSubViewStatus() {
+    open func resetSubViewStatus() {
         let nav = self.navigationController as! ZLImageNavController
         let config = ZLPhotoConfiguration.default()
         let currentModel = self.arrDataSources[self.currentIndex]
@@ -447,7 +447,7 @@ class ZLPhotoPreviewController: UIViewController {
         }
     }
     
-    @objc func selectBtnClick() {
+    @objc open func selectBtnClick() {
         let nav = self.navigationController as! ZLImageNavController
         let currentModel = self.arrDataSources[self.currentIndex]
         self.selectBtn.layer.removeAllAnimations()
@@ -551,7 +551,7 @@ class ZLPhotoPreviewController: UIViewController {
         }
     }
     
-    func scrollToSelPreviewCell(_ model: ZLPhotoModel) {
+    open func scrollToSelPreviewCell(_ model: ZLPhotoModel) {
         guard let index = self.arrDataSources.lastIndex(of: model) else {
             return
         }
@@ -563,7 +563,7 @@ class ZLPhotoPreviewController: UIViewController {
         }
     }
     
-    func refreshCurrentCellIndex(_ models: [ZLPhotoModel]) {
+    open func refreshCurrentCellIndex(_ models: [ZLPhotoModel]) {
         let nav = self.navigationController as? ZLImageNavController
         nav?.arrSelectedModels.removeAll()
         nav?.arrSelectedModels.append(contentsOf: models)
@@ -573,7 +573,7 @@ class ZLPhotoPreviewController: UIViewController {
         self.resetIndexLabelStatus()
     }
     
-    func tapPreviewCell() {
+    open func tapPreviewCell() {
         self.hideNavView = !self.hideNavView
         let currentCell = self.collectionView.cellForItem(at: IndexPath(row: self.currentIndex, section: 0))
         if let cell = currentCell as? ZLVideoPreviewCell {
@@ -636,14 +636,14 @@ class ZLPhotoPreviewController: UIViewController {
 
 extension ZLPhotoPreviewController: UINavigationControllerDelegate {
     
-    func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationController.Operation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+    public func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationController.Operation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         if operation == .push {
             return nil
         }
         return self.popInteractiveTransition?.interactive == true ? ZLPhotoPreviewAnimatedTransition() : nil
     }
     
-    func navigationController(_ navigationController: UINavigationController, interactionControllerFor animationController: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
+    public func navigationController(_ navigationController: UINavigationController, interactionControllerFor animationController: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
         return self.popInteractiveTransition?.interactive == true ? self.popInteractiveTransition : nil
     }
     
@@ -653,7 +653,7 @@ extension ZLPhotoPreviewController: UINavigationControllerDelegate {
 // scroll view delegate
 extension ZLPhotoPreviewController {
     
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+    open func scrollViewDidScroll(_ scrollView: UIScrollView) {
         guard scrollView == self.collectionView else {
             return
         }
@@ -669,7 +669,7 @@ extension ZLPhotoPreviewController {
         self.selPhotoPreview?.currentShowModelChanged(model: self.arrDataSources[self.currentIndex])
     }
     
-    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+    public func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         self.indexBeforOrientationChanged = self.currentIndex
         let cell = self.collectionView.cellForItem(at: IndexPath(row: self.currentIndex, section: 0))
         if let cell = cell as? ZLGifPreviewCell {
@@ -684,27 +684,27 @@ extension ZLPhotoPreviewController {
 
 extension ZLPhotoPreviewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return ZLPhotoPreviewController.colItemSpacing
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return ZLPhotoPreviewController.colItemSpacing
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         return UIEdgeInsets(top: 0, left: ZLPhotoPreviewController.colItemSpacing / 2, bottom: 0, right: ZLPhotoPreviewController.colItemSpacing / 2)
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: self.view.bounds.width, height: self.view.bounds.height)
     }
     
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return self.arrDataSources.count
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    open func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let config = ZLPhotoConfiguration.default()
         let model = self.arrDataSources[indexPath.row]
         
@@ -751,7 +751,7 @@ extension ZLPhotoPreviewController: UICollectionViewDataSource, UICollectionView
         return baseCell
     }
     
-    func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+    public func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         if let c = cell as? ZLPreviewBaseCell {
             c.resetSubViewStatusWhenCellEndDisplay()
         }
@@ -762,30 +762,30 @@ extension ZLPhotoPreviewController: UICollectionViewDataSource, UICollectionView
 
 /// 下方显示的已选择照片列表
 
-class ZLPhotoPreviewSelectedView: UIView, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDragDelegate, UICollectionViewDropDelegate {
+open class ZLPhotoPreviewSelectedView: UIView, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDragDelegate, UICollectionViewDropDelegate {
     
     var bottomBlurView: UIVisualEffectView?
     
-    var collectionView: UICollectionView!
+    open var collectionView: UICollectionView!
     
-    var arrSelectedModels: [ZLPhotoModel]
+    open var arrSelectedModels: [ZLPhotoModel]
     
     var currentShowModel: ZLPhotoModel
     
-    var selectBlock: ( (ZLPhotoModel) -> Void )?
+    open var selectBlock: ( (ZLPhotoModel) -> Void )?
     
-    var endSortBlock: ( ([ZLPhotoModel]) -> Void )?
+    open var endSortBlock: ( ([ZLPhotoModel]) -> Void )?
     
     var isDraging = false
     
-    init(selModels: [ZLPhotoModel], currentShowModel: ZLPhotoModel) {
+    open init(selModels: [ZLPhotoModel], currentShowModel: ZLPhotoModel) {
         self.arrSelectedModels = selModels
         self.currentShowModel = currentShowModel
         super.init(frame: .zero)
         self.setupUI()
     }
     
-    func setupUI() {
+    open func setupUI() {
         let layout = UICollectionViewFlowLayout()
         layout.itemSize = CGSize(width: 60, height: 60)
         layout.minimumLineSpacing = 10
@@ -814,11 +814,11 @@ class ZLPhotoPreviewSelectedView: UIView, UICollectionViewDataSource, UICollecti
         }
     }
     
-    required init?(coder: NSCoder) {
+    required public init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func layoutSubviews() {
+    open override func layoutSubviews() {
         super.layoutSubviews()
         self.bottomBlurView?.frame = self.bounds
         self.collectionView.frame = CGRect(x: 0, y: 10, width: self.bounds.width, height: 80)
@@ -827,7 +827,7 @@ class ZLPhotoPreviewSelectedView: UIView, UICollectionViewDataSource, UICollecti
         }
     }
     
-    func currentShowModelChanged(model: ZLPhotoModel) {
+    open func currentShowModelChanged(model: ZLPhotoModel) {
         guard self.currentShowModel != model else {
             return
         }
@@ -844,14 +844,14 @@ class ZLPhotoPreviewSelectedView: UIView, UICollectionViewDataSource, UICollecti
         }
     }
     
-    func addSelModel(model: ZLPhotoModel) {
+    open func addSelModel(model: ZLPhotoModel) {
         self.arrSelectedModels.append(model)
         let ip = IndexPath(row: self.arrSelectedModels.count-1, section: 0)
         self.collectionView.insertItems(at: [ip])
         self.collectionView.scrollToItem(at: ip, at: .centeredHorizontally, animated: true)
     }
     
-    func removeSelModel(model: ZLPhotoModel) {
+    open func removeSelModel(model: ZLPhotoModel) {
         guard let index = self.arrSelectedModels.firstIndex(where: { $0 == model }) else {
             return
         }
@@ -886,11 +886,11 @@ class ZLPhotoPreviewSelectedView: UIView, UICollectionViewDataSource, UICollecti
         }
     }
     
-    func collectionView(_ collectionView: UICollectionView, canMoveItemAt indexPath: IndexPath) -> Bool {
+    public func collectionView(_ collectionView: UICollectionView, canMoveItemAt indexPath: IndexPath) -> Bool {
         return true
     }
     
-    func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+    public func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
         let moveModel = self.arrSelectedModels[sourceIndexPath.row]
         self.arrSelectedModels.remove(at: sourceIndexPath.row)
         self.arrSelectedModels.insert(moveModel, at: destinationIndexPath.row)
@@ -898,7 +898,7 @@ class ZLPhotoPreviewSelectedView: UIView, UICollectionViewDataSource, UICollecti
     
     // MARK: iOS11 拖动
     @available(iOS 11.0, *)
-    func collectionView(_ collectionView: UICollectionView, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem] {
+    public func collectionView(_ collectionView: UICollectionView, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem] {
         self.isDraging = true
         let itemProvider = NSItemProvider()
         let item = UIDragItem(itemProvider: itemProvider)
@@ -906,7 +906,7 @@ class ZLPhotoPreviewSelectedView: UIView, UICollectionViewDataSource, UICollecti
     }
     
     @available(iOS 11.0, *)
-    func collectionView(_ collectionView: UICollectionView, dropSessionDidUpdate session: UIDropSession, withDestinationIndexPath destinationIndexPath: IndexPath?) -> UICollectionViewDropProposal {
+    public func collectionView(_ collectionView: UICollectionView, dropSessionDidUpdate session: UIDropSession, withDestinationIndexPath destinationIndexPath: IndexPath?) -> UICollectionViewDropProposal {
         if collectionView.hasActiveDrag {
             return UICollectionViewDropProposal(operation: .move, intent: .insertAtDestinationIndexPath)
         }
@@ -914,7 +914,7 @@ class ZLPhotoPreviewSelectedView: UIView, UICollectionViewDataSource, UICollecti
     }
     
     @available(iOS 11.0, *)
-    func collectionView(_ collectionView: UICollectionView, performDropWith coordinator: UICollectionViewDropCoordinator) {
+    public func collectionView(_ collectionView: UICollectionView, performDropWith coordinator: UICollectionViewDropCoordinator) {
         self.isDraging = false
         guard let destinationIndexPath = coordinator.destinationIndexPath else {
             return
@@ -944,11 +944,11 @@ class ZLPhotoPreviewSelectedView: UIView, UICollectionViewDataSource, UICollecti
         }
     }
     
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return self.arrSelectedModels.count
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    open func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ZLPhotoPreviewSelectedViewCell.zl_identifier(), for: indexPath) as! ZLPhotoPreviewSelectedViewCell
         
         let m = self.arrSelectedModels[indexPath.row]
@@ -963,7 +963,7 @@ class ZLPhotoPreviewSelectedView: UIView, UICollectionViewDataSource, UICollecti
         return cell
     }
     
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard !self.isDraging else {
             return
         }
@@ -1062,7 +1062,7 @@ class ZLPhotoPreviewSelectedViewCell: UICollectionViewCell {
         self.imageView.image = nil
         //[ZLModify]
         if let photoURLStr = self.model.photoURLStr {
-            imageView..zlphoto_setImage(with: URL(string: photoURLStr))
+            imageView.zlphoto_setImage(with: URL(string: photoURLStr))
             return
         }
         if let ei = self.model.editImage {

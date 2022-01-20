@@ -27,7 +27,7 @@
 import UIKit
 import Photos
 
-class ZLAlbumListController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+public class ZLAlbumListController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     lazy var navView = ZLExternalAlbumListNavView(title: localLanguageTextValue(.photo))
     
@@ -41,7 +41,7 @@ class ZLAlbumListController: UIViewController, UITableViewDataSource, UITableVie
     // ZLModify
     private var didAddObserver = false
     
-    override var preferredStatusBarStyle: UIStatusBarStyle {
+    public override var preferredStatusBarStyle: UIStatusBarStyle {
         return ZLPhotoConfiguration.default().statusBarStyle
     }
     
@@ -49,7 +49,7 @@ class ZLAlbumListController: UIViewController, UITableViewDataSource, UITableVie
         zl_debugPrint("ZLAlbumListController deinit")
     }
     
-    override func viewDidLoad() {
+    public override func viewDidLoad() {
         super.viewDidLoad()
 
         setupUI()
@@ -57,7 +57,7 @@ class ZLAlbumListController: UIViewController, UITableViewDataSource, UITableVie
         addLibraryChangeObserver()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
+    public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.navigationBar.isHidden = true
         
@@ -78,11 +78,11 @@ class ZLAlbumListController: UIViewController, UITableViewDataSource, UITableVie
         }
     }
     // zlmodify
-    override func viewDidAppear(_ animated: Bool) {
+    public override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         addLibraryChangeObserver()
     }
-    override func viewDidLayoutSubviews() {
+    public override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
         let navViewNormalH: CGFloat = 44
@@ -131,11 +131,11 @@ class ZLAlbumListController: UIViewController, UITableViewDataSource, UITableVie
         view.addSubview(navView)
     }
 
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return arrDataSource.count
     }
 
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ZLAlbumListCell.zl_identifier(), for: indexPath) as! ZLAlbumListCell
         //[ZLModify]
         cell.backgroundColor = .white
@@ -146,7 +146,7 @@ class ZLAlbumListController: UIViewController, UITableViewDataSource, UITableVie
         return cell
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let vc = ZLThumbnailViewController(albumList: arrDataSource[indexPath.row])
         show(vc, sender: nil)
     }
@@ -156,7 +156,7 @@ class ZLAlbumListController: UIViewController, UITableViewDataSource, UITableVie
 
 extension ZLAlbumListController: PHPhotoLibraryChangeObserver {
     
-    func photoLibraryDidChange(_ changeInstance: PHChange) {
+    public func photoLibraryDidChange(_ changeInstance: PHChange) {
         shouldReloadAlbumList = true
     }
     

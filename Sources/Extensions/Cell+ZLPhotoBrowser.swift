@@ -28,11 +28,11 @@ import UIKit
 
 extension UICollectionViewCell {
     
-    class func zl_identifier() -> String {
+    open class func zl_identifier() -> String {
         return NSStringFromClass(self.classForCoder())
     }
     
-    class func zl_register(_ collectionView: UICollectionView) {
+    open class func zl_register(_ collectionView: UICollectionView) {
         collectionView.register(self.classForCoder(), forCellWithReuseIdentifier: self.zl_identifier())
     }
     
@@ -40,11 +40,11 @@ extension UICollectionViewCell {
 
 extension UITableViewCell {
     
-    class func zl_identifier() -> String {
+    open class func zl_identifier() -> String {
         return NSStringFromClass(self.classForCoder())
     }
     
-    class func zl_register(_ tableView: UITableView) {
+    open class func zl_register(_ tableView: UITableView) {
         tableView.register(self.classForCoder(), forCellReuseIdentifier: self.zl_identifier())
     }
     

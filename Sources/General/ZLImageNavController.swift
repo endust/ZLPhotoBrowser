@@ -27,21 +27,28 @@
 import UIKit
 import Photos
 
-class ZLImageNavController: UINavigationController {
+open class ZLImageNavController: UINavigationController {
 
     var isSelectedOriginal: Bool = false
     
-    var arrSelectedModels: [ZLPhotoModel] = []
+    open var arrSelectedModels: [ZLPhotoModel] = []
     
-    var selectImageBlock: ( () -> Void )?
+    open var selectImageBlock: ( () -> Void )?
     
     var cancelBlock: ( () -> Void )?
+    
+    open var isFirstEnter: Bool = true
+    
+    open var customSelectVideoBlock: ((ZLPhotoModel) -> Void)?
+    
+    open var customSelectVideoCoverBlock: ((UIImage) -> Void)?
+    open var customVideoWHScale: CGFloat = 1.0
     
     deinit {
         zl_debugPrint("ZLImageNavController deinit")
     }
     
-    override var preferredStatusBarStyle: UIStatusBarStyle {
+    open override var preferredStatusBarStyle: UIStatusBarStyle {
         return ZLPhotoConfiguration.default().statusBarStyle
     }
     
@@ -62,11 +69,11 @@ class ZLImageNavController: UINavigationController {
         self.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: colorDeploy.navTitleColor]
     }
     
-    required init?(coder aDecoder: NSCoder) {
+    required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func viewDidLoad() {
+    open override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
@@ -83,49 +90,4 @@ class ZLImageNavController: UINavigationController {
         return image
     }
 
-}
-
-// zlmodify
-extension ZLImageNavController {
-    private struct AssociateKey {
-        static var isFirstEnterKey = 0
-        static var customSelectVideoBlockKey = 1
-        static var customSelectVideoCoverBlockKey = 2
-        static var customVideoWHScaleKey = 3
-    }
-    var isFirstEnter: Bool {
-        get {
-            return objc_getAssociatedObject(self, &AssociateKey.isFirstEnterKey) as? Bool ?? true
-        }
-        set {
-            objc_setAssociatedObject(self, &AssociateKey.isFirstEnterKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
-        }
-    }
-    
-    var customSelectVideoBlock: ((ZLPhotoModel) -> Void)? {
-        get {
-            return objc_getAssociatedObject(self, &AssociateKey.customSelectVideoBlockKey) as? ((ZLPhotoModel) -> Void)
-        }
-        set {
-            objc_setAssociatedObject(self, &AssociateKey.customSelectVideoBlockKey, newValue, .OBJC_ASSOCIATION_COPY_NONATOMIC)
-        }
-    }
-    
-    var customSelectVideoCoverBlock: ((UIImage) -> Void)? {
-        get {
-            return objc_getAssociatedObject(self, &AssociateKey.customSelectVideoCoverBlockKey) as? ((UIImage) -> Void)
-        }
-        set {
-            objc_setAssociatedObject(self, &AssociateKey.customSelectVideoCoverBlockKey, newValue, .OBJC_ASSOCIATION_COPY_NONATOMIC)
-        }
-    }
-    
-    var customVideoWHScale: CGFloat {
-        get {
-            return objc_getAssociatedObject(self, &AssociateKey.customVideoWHScaleKey) as? CGFloat ?? 1.0
-        }
-        set {
-            objc_setAssociatedObject(self, &AssociateKey.customVideoWHScaleKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
-        }
-    }
 }

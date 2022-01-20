@@ -27,7 +27,7 @@
 import UIKit
 import Photos
 
-public class ZLPhotoPreviewSheet: UIView {
+open class ZLPhotoPreviewSheet: UIView {
 
     struct Layout {
         
@@ -63,7 +63,7 @@ public class ZLPhotoPreviewSheet: UIView {
     
     private var arrDataSources: [ZLPhotoModel] = []
     //[ZLModify]
-    private(set) var arrSelectedModels: [ZLPhotoModel] = []
+    open private(set) var arrSelectedModels: [ZLPhotoModel] = []
     
     private var preview = false
     
@@ -83,7 +83,7 @@ public class ZLPhotoPreviewSheet: UIView {
     
     private var panCell: ZLThumbnailPhotoCell?
     //[ZLModify]
-    private(set) weak var sender: UIViewController?
+    open private(set) weak var sender: UIViewController?
     
     private lazy var fetchImageQueue: OperationQueue = OperationQueue()
     
@@ -508,7 +508,7 @@ public class ZLPhotoPreviewSheet: UIView {
         }
     }
     
-    func requestSelectPhoto(viewController: UIViewController? = nil) {
+    open func requestSelectPhoto(viewController: UIViewController? = nil) {
         guard !arrSelectedModels.isEmpty else {
             selectImageBlock?([], [], isSelectOriginal)
             hide()
@@ -609,7 +609,7 @@ public class ZLPhotoPreviewSheet: UIView {
         }
     }
     
-    func showThumbnailViewController() {
+    open func showThumbnailViewController() {
         ZLPhotoManager.getCameraRollAlbum(allowSelectImage: ZLPhotoConfiguration.default().allowSelectImage, allowSelectVideo: ZLPhotoConfiguration.default().allowSelectVideo) { [weak self] (cameraRoll) in
             guard let `self` = self else { return }
             let nav: ZLImageNavController
@@ -715,7 +715,7 @@ public class ZLPhotoPreviewSheet: UIView {
         }
     }
     
-    func getImageNav(rootViewController: UIViewController) -> ZLImageNavController {
+    public func getImageNav(rootViewController: UIViewController) -> ZLImageNavController {
         let nav = ZLImageNavController(rootViewController: rootViewController)
         nav.modalPresentationStyle = .fullScreen
         nav.selectImageBlock = { [weak self, weak nav] in

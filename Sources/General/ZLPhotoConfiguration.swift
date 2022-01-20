@@ -631,7 +631,7 @@ struct ZLCustomImageDeploy {
 
 // zlmodify
 extension ZLPhotoConfiguration {
-    func setToChoosePhoto() {
+    public func setToChoosePhoto() {
         disableAnimatedImage()
         saveNewImageAfterEdit = false
         allowSelectVideo = false
@@ -643,7 +643,7 @@ extension ZLPhotoConfiguration {
         showSelectBtnWhenSingleSelect = true
     }
     
-    func setToChooseVideo() {
+    open func setToChooseVideo() {
         disableAnimatedImage()
         allowSelectVideo = true
         allowSelectImage = false
@@ -675,7 +675,7 @@ extension ZLPhotoConfiguration {
         return allowSelectVideo == true && allowSelectImage == false && maxSelectCount == 1
     }
     
-    var isChooseVideoCover: Bool {
+    open var isChooseVideoCover: Bool {
         return allowSelectVideo == false && allowSelectImage == true && maxSelectCount == 1
     }
 }

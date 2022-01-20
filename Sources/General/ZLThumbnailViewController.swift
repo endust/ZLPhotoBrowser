@@ -41,19 +41,19 @@ extension ZLThumbnailViewController {
     
 }
 
-class ZLThumbnailViewController: UIViewController {
+open class ZLThumbnailViewController: UIViewController {
 
     var albumList: ZLAlbumListModel
     
     var externalNavView: ZLExternalAlbumListNavView?
     
-    var embedNavView: ZLEmbedAlbumListNavView?
+    open var embedNavView: ZLEmbedAlbumListNavView?
     
-    var embedAlbumListView: ZLEmbedAlbumListView?
+    open var embedAlbumListView: ZLEmbedAlbumListView?
     
-    var collectionView: UICollectionView!
+    open var collectionView: UICollectionView!
     
-    var bottomView: UIView!
+    open var bottomView: UIView!
     
     var bottomBlurView: UIVisualEffectView?
     
@@ -145,11 +145,11 @@ class ZLThumbnailViewController: UIViewController {
         }
     }
     
-    override var prefersStatusBarHidden: Bool {
+    open override var prefersStatusBarHidden: Bool {
         return false
     }
     
-    override var preferredStatusBarStyle: UIStatusBarStyle {
+    open override var preferredStatusBarStyle: UIStatusBarStyle {
         return ZLPhotoConfiguration.default().statusBarStyle
     }
     
@@ -160,16 +160,16 @@ class ZLThumbnailViewController: UIViewController {
         self.cleanTimer()
     }
     
-    init(albumList: ZLAlbumListModel) {
+    public init(albumList: ZLAlbumListModel) {
         self.albumList = albumList
         super.init(nibName: nil, bundle: nil)
     }
     
-    required init?(coder: NSCoder) {
+    required public init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func viewDidLoad() {
+    open override func viewDidLoad() {
         super.viewDidLoad()
 
         self.setupUI()
@@ -190,20 +190,20 @@ class ZLThumbnailViewController: UIViewController {
         }
     }
     
-    override func viewWillAppear(_ animated: Bool) {
+    open override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.navigationBar.isHidden = true
         self.collectionView.reloadItems(at: self.collectionView.indexPathsForVisibleItems)
         self.resetBottomToolBtnStatus()
     }
     
-    override func viewDidAppear(_ animated: Bool) {
+    open override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         self.isLayoutOK = true
         self.isPreviewPush = false
     }
     
-    override func viewDidLayoutSubviews() {
+    open override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
         let navViewNormalH: CGFloat = 44
@@ -278,7 +278,7 @@ class ZLThumbnailViewController: UIViewController {
         }
     }
     
-    func setupUI() {
+    open func setupUI() {
         self.automaticallyAdjustsScrollViewInsets = true
         self.edgesForExtendedLayout = .all
         self.view.backgroundColor = .thumbnailBgColor
@@ -352,7 +352,7 @@ class ZLThumbnailViewController: UIViewController {
         self.setupNavView()
     }
     
-    func setupNavView() {
+    open func setupNavView() {
         if ZLPhotoConfiguration.default().style == .embedAlbumList {
             self.embedNavView = ZLEmbedAlbumListNavView(title: self.albumList.title)
             
@@ -887,7 +887,7 @@ class ZLThumbnailViewController: UIViewController {
 
 extension ZLThumbnailViewController: UIGestureRecognizerDelegate {
     
-    func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+    public func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
         let config = ZLPhotoConfiguration.default()
         if (config.maxSelectCount == 1 && !config.showSelectBtnWhenSingleSelect) || self.embedAlbumListView?.isHidden == false {
             return false
@@ -902,15 +902,15 @@ extension ZLThumbnailViewController: UIGestureRecognizerDelegate {
 
 extension ZLThumbnailViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return ZLLayout.thumbCollectionViewItemSpacing
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return ZLLayout.thumbCollectionViewLineSpacing
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let defaultCount = CGFloat(ZLPhotoConfiguration.default().columnCount)
         var columnCount: CGFloat = deviceIsiPad() ? (defaultCount+2) : defaultCount
         if UIApplication.shared.statusBarOrientation.isLandscape {
@@ -921,11 +921,11 @@ extension ZLThumbnailViewController: UICollectionViewDataSource, UICollectionVie
         return CGSize(width: singleW, height: singleW)
     }
     
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return self.arrDataSources.count + self.offset
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let config = ZLPhotoConfiguration.default()
         if self.showCameraCell && ((config.sortAscending && indexPath.row == self.arrDataSources.count) || (!config.sortAscending && indexPath.row == 0)) {
             // camera cell
@@ -994,7 +994,7 @@ extension ZLThumbnailViewController: UICollectionViewDataSource, UICollectionVie
         return cell
     }
     
-    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+    public func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         guard let c = cell as? ZLThumbnailPhotoCell else {
             return
         }
@@ -1006,7 +1006,7 @@ extension ZLThumbnailViewController: UICollectionViewDataSource, UICollectionVie
         self.setCellMaskView(c, isSelected: model.isSelected, model: model)
     }
     
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let c = collectionView.cellForItem(at: indexPath)
         if c is ZLCameraCell {
             self.showCamera()
@@ -1173,7 +1173,7 @@ extension ZLThumbnailViewController: UICollectionViewDataSource, UICollectionVie
 
 extension ZLThumbnailViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+    public func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         picker.dismiss(animated: true) {
             let image = info[.originalImage] as? UIImage
             let url = info[.mediaURL] as? URL
@@ -1186,7 +1186,7 @@ extension ZLThumbnailViewController: UIImagePickerControllerDelegate, UINavigati
 
 extension ZLThumbnailViewController: PHPhotoLibraryChangeObserver {
     
-    func photoLibraryDidChange(_ changeInstance: PHChange) {
+    public func photoLibraryDidChange(_ changeInstance: PHChange) {
         guard let changes = changeInstance.changeDetails(for: self.albumList.result)
             else { return }
         ZLMainAsync {
@@ -1223,7 +1223,7 @@ extension ZLThumbnailViewController: PHPhotoLibraryChangeObserver {
 }
 
 // MARK: embed album list nav view
-class ZLEmbedAlbumListNavView: UIView {
+open class ZLEmbedAlbumListNavView: UIView {
     
     static let titleViewH: CGFloat = 32
     
@@ -1236,31 +1236,31 @@ class ZLEmbedAlbumListNavView: UIView {
         }
     }
     
-    var navBlurView: UIVisualEffectView?
+    open var navBlurView: UIVisualEffectView?
     
-    lazy var titleBgControl = UIControl()
+    open lazy var titleBgControl = UIControl()
     
-    lazy var albumTitleLabel = UILabel()
+    open lazy var albumTitleLabel = UILabel()
     
     lazy var arrow = UIImageView(image: getImage("zl_downArrow"))
     
-    lazy var cancelBtn = UIButton(type: .custom)
+    open lazy var cancelBtn = UIButton(type: .custom)
     
     var selectAlbumBlock: (() -> Void)?
     
     var cancelBlock: (() -> Void)?
     
-    init(title: String) {
+    public init(title: String) {
         self.title = title
         super.init(frame: .zero)
         setupUI()
     }
     
-    required init?(coder: NSCoder) {
+    required public init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func layoutSubviews() {
+    open override func layoutSubviews() {
         super.layoutSubviews()
         
         var insets = UIEdgeInsets(top: 20, left: 0, bottom: 0, right: 0)
@@ -1308,7 +1308,7 @@ class ZLEmbedAlbumListNavView: UIView {
         }
     }
     
-    func setupUI() {
+    open func setupUI() {
         backgroundColor = .navBarColor
         
         if let effect = ZLPhotoConfiguration.default().navViewBlurEffectOfAlbumList {
